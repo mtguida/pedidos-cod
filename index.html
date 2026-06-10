@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pedidos COD</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; min-height: 100vh; padding: 1.5rem; }
+@media (prefers-color-scheme: dark) { body { background: #1a1a1a; color: #f0f0f0; } }
+.layout { display: grid; grid-template-columns: 1fr 220px; gap: 16px; max-width: 860px; margin: 0 auto; align-items: start; }
+@media (max-width: 600px) { .layout { grid-template-columns: 1fr; } .painel-dir { order: -1; } }
+h1 { font-size: 16px; font-weight: 600; margin-bottom: 4px; color: inherit; }
+.dia-label { font-size: 13px; color: #888; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.editando-badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #FAEEDA; color: #633806; font-weight: 500; }
+.bloco { background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 10px; }
+@media (prefers-color-scheme: dark) { .bloco { background: #2a2a2a; border-color: #3a3a3a; } }
+.bloco-titulo { font-size: 14px; font-weight: 600; }
+.bloco-desc { font-size: 12px; color: #888; margin-top: 2px; margin-bottom: 10px; }
+.marcacoes { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; min-height: 26px; align-items: center; }
+.marca { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; padding: 3px 9px; border-radius: 20px; font-weight: 500; cursor: pointer; border: none; }
+.marca:hover { opacity: 0.7; }
+.marca.cancelado { text-decoration: line-through; opacity: 0.35; }
+.marca i { font-size: 11px; }
+.t1 .marca { background: #E1F5EE; color: #085041; }
+.t2 .marca { background: #E6F1FB; color: #0C447C; }
+.t3 .marca { background: #FAEEDA; color: #633806; }
+.marca-hint { font-size: 12px; color: #aaa; }
+.btn-add { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; padding: 5px 12px; border-radius: 8px; background: #f0f0f0; border: 1px solid #ddd; cursor: pointer; color: #333; }
+.btn-add:hover { background: #e5e5e5; }
+@media (prefers-color-scheme: dark) { .btn-add { background: #333; border-color: #444; color: #eee; } .btn-add:hover { background: #3a3a3a; } }
+.obs-input { font-size: 12px; width: 100%; margin-top: 8px; padding: 6px 10px; border: 1px solid #e0e0e0; border-radius: 8px; background: transparent; color: inherit; outline: none; }
+.obs-input:focus { border-color: #aaa; }
+hr { border: none; border-top: 1px solid #e5e5e5; margin: 1.25rem 0; }
+@media (prefers-color-scheme: dark) { hr { border-color: #3a3a3a; } }
+.footer { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.total-label { font-size: 12px; color: #888; margin-bottom: 2px; }
+.total-val { font-size: 17px; font-weight: 600; }
+.btn-salvar { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; padding: 8px 18px; background: #1a1a1a; color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+.btn-salvar:hover { opacity: 0.85; }
+.btn-salvar:disabled { opacity: 0.5; cursor: not-allowed; }
+@media (prefers-color-scheme: dark) { .btn-salvar { background: #f0f0f0; color: #1a1a1a; } }
+.painel-dir { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 12px; }
+.box { background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 1rem; }
+@media (prefers-color-scheme: dark) { .box { background: #2a2a2a; border-color: #3a3a3a; } }
+.box-titulo { font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+.cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.cal-nav button { background: none; border: none; cursor: pointer; color: #888; font-size: 16px; padding: 2px 6px; border-radius: 4px; }
+.cal-nav button:hover { background: #f0f0f0; }
+@media (prefers-color-scheme: dark) { .cal-nav button:hover { background: #333; } }
+.cal-mes { font-size: 12px; font-weight: 600; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.cal-dow { font-size: 10px; color: #aaa; text-align: center; padding-bottom: 3px; }
+.cal-day { font-size: 11px; text-align: center; padding: 4px 2px; border-radius: 4px; cursor: pointer; color: #aaa; }
+.cal-day:hover { background: #f0f0f0; }
+@media (prefers-color-scheme: dark) { .cal-day:hover { background: #333; } }
+.cal-day.hoje { background: #1a1a1a; color: #fff; border-radius: 50%; }
+@media (prefers-color-scheme: dark) { .cal-day.hoje { background: #f0f0f0; color: #1a1a1a; } }
+.cal-day.tem-dados { color: #1a1a1a; font-weight: 600; }
+@media (prefers-color-scheme: dark) { .cal-day.tem-dados { color: #f0f0f0; } }
+.cal-day.selecionado { outline: 2px solid #378ADD; border-radius: 50%; }
+.cal-day.vazio { cursor: default; pointer-events: none; }
+.num-grupo { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e5e5e5; }
+@media (prefers-color-scheme: dark) { .num-grupo { border-color: #3a3a3a; } }
+.num-grupo:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.num-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.num-label { font-size: 13px; font-weight: 600; }
+.num-total { font-size: 12px; font-weight: 600; }
+.num-linha { display: flex; justify-content: space-between; font-size: 11px; padding: 1px 0; }
+.num-linha .k { color: #888; }
+.dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; }
+.d1{background:#1D9E75;} .d2{background:#378ADD;} .d3{background:#BA7517;}
+.resumo-vazio { font-size: 12px; color: #aaa; }
+.status-msg { font-size: 12px; display: none; align-items: center; gap: 4px; }
+.status-ok { color: #1D9E75; display: inline-flex !important; }
+.status-erro { color: #E24B4A; display: inline-flex !important; }
+.status-env { color: #888; display: inline-flex !important; }
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 100; }
+.modal-overlay.open { display: flex; }
+.modal { background: #fff; border-radius: 12px; padding: 1.5rem; width: 260px; box-shadow: 0 4px 24px rgba(0,0,0,0.15); }
+@media (prefers-color-scheme: dark) { .modal { background: #2a2a2a; } }
+.modal-titulo { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.modal-sub { font-size: 12px; color: #888; margin-bottom: 14px; }
+.modal-input { font-size: 24px; width: 100%; text-align: center; letter-spacing: 10px; margin-bottom: 8px; padding: 8px; border: 1px solid #ddd; border-radius: 8px; background: transparent; color: inherit; outline: none; }
+.modal-input:focus { border-color: #888; }
+.modal-erro { font-size: 12px; color: #E24B4A; margin-bottom: 8px; display: none; }
+.modal-acoes { display: flex; gap: 8px; }
+.modal-acoes button { flex: 1; font-size: 13px; padding: 8px; border-radius: 8px; cursor: pointer; border: 1px solid #ddd; }
+.btn-ok { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+.btn-ok:hover { opacity: 0.85; }
+@media (prefers-color-scheme: dark) { .btn-ok { background: #f0f0f0; color: #1a1a1a; } }
+.btn-vol { background: none; color: #888; }
+.btn-vol:hover { background: #f0f0f0; }
+</style>
+</head>
+<body>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-titulo" id="modal-titulo"></div>
+    <div class="modal-sub">4 últimos dígitos do WhatsApp</div>
+    <input class="modal-input" type="tel" id="modal-input" maxlength="4" placeholder="0000" />
+    <div class="modal-erro" id="modal-erro">Preencha os 4 dígitos.</div>
+    <div class="modal-acoes">
+      <button class="btn-vol" onclick="fecharModal()">Cancelar</button>
+      <button class="btn-ok" onclick="confirmar()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <div>
+    <h1>Pedidos COD</h1>
+    <div class="dia-label">
+      <span id="dia-label"></span>
+      <span class="editando-badge" id="editando-badge" style="display:none">Editando dia anterior</span>
+    </div>
+
+    <div class="bloco t1">
+      <div class="bloco-titulo">Agendamento</div>
+      <div class="bloco-desc">Pedido fechado, entrega amanhã</div>
+      <div class="marcacoes" id="marcas1"></div>
+      <button class="btn-add" onclick="abrirModal(1)"><i class="ti ti-plus"></i> Feito</button>
+      <input class="obs-input" type="text" id="obs1" placeholder="Observação (opcional)..." oninput="localSave()" />
+    </div>
+
+    <div class="bloco t2">
+      <div class="bloco-titulo">Pré-agendamento</div>
+      <div class="bloco-desc">Entrega marcada para 1–2 semanas</div>
+      <div class="marcacoes" id="marcas2"></div>
+      <button class="btn-add" onclick="abrirModal(2)"><i class="ti ti-plus"></i> Agendado</button>
+      <input class="obs-input" type="text" id="obs2" placeholder="Observação (opcional)..." oninput="localSave()" />
+    </div>
+
+    <div class="bloco t3">
+      <div class="bloco-titulo">Reconfirmação</div>
+      <div class="bloco-desc">Pré-agendamento anterior confirmado hoje</div>
+      <div class="marcacoes" id="marcas3"></div>
+      <button class="btn-add" onclick="abrirModal(3)"><i class="ti ti-plus"></i> Confirmado</button>
+      <input class="obs-input" type="text" id="obs3" placeholder="Observação (opcional)..." oninput="localSave()" />
+    </div>
+
+    <hr />
+
+    <div class="footer">
+      <div>
+        <div class="total-label">Total do dia</div>
+        <div class="total-val" id="total-val">0 pedidos</div>
+      </div>
+      <div style="flex:1"></div>
+      <span class="status-msg" id="status-msg"></span>
+      <button class="btn-salvar" id="btn-salvar" onclick="salvarSheets()"><i class="ti ti-device-floppy"></i> Salvar dia</button>
+    </div>
+  </div>
+
+  <div class="painel-dir">
+    <div class="box">
+      <div class="cal-nav">
+        <button onclick="mudarMes(-1)"><i class="ti ti-chevron-left"></i></button>
+        <span class="cal-mes" id="cal-mes"></span>
+        <button onclick="mudarMes(1)"><i class="ti ti-chevron-right"></i></button>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+    <div class="box">
+      <div class="box-titulo">Por número</div>
+      <div id="resumo-nums"><span class="resumo-vazio">Nenhum registro ainda</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycby9zv_zACS0h0lMctLfOGGHmCY8acdTmsGSkOvTaUMgnJE6ZayUz17hlmNNZZ0Gh5Ix/exec';
+const NOMES = {1:'feito', 2:'agendado', 3:'confirmado'};
+const TITULOS = {1:'Agendamento', 2:'Pré-agendamento', 3:'Reconfirmação'};
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DOWS = ['D','S','T','Q','Q','S','S'];
+
+let state = {1:[], 2:[], 3:[]};
+let seq = 1, tipoAtivo = null;
+let diaAtivo = toKey(new Date());
+let calRef = new Date();
+let db = {};
+let midnightTimer = null;
+
+try { db = JSON.parse(localStorage.getItem('ped_db') || '{}'); } catch(e) { db = {}; }
+
+function toKey(d) {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function keyToLabel(k) {
+  const [y,m,d] = k.split('-');
+  return new Date(+y,+m-1,+d).toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
+}
+
+function loadDia(key) {
+  diaAtivo = key;
+  const rec = db[key];
+  if (rec) {
+    state = JSON.parse(JSON.stringify(rec.state));
+    seq = rec.seq || 1;
+    [1,2,3].forEach(n => { document.getElementById('obs'+n).value = rec.obs[n] || ''; });
+  } else {
+    state = {1:[], 2:[], 3:[]}; seq = 1;
+    [1,2,3].forEach(n => { document.getElementById('obs'+n).value = ''; });
+  }
+  const hoje = toKey(new Date());
+  const label = keyToLabel(key);
+  document.getElementById('dia-label').textContent = label.charAt(0).toUpperCase() + label.slice(1);
+  document.getElementById('editando-badge').style.display = key !== hoje ? 'inline-block' : 'none';
+  [1,2,3].forEach(n => render(n));
+  updateTotal(); renderResumo(); renderCal(); setStatus('');
+}
+
+function localSave() {
+  db[diaAtivo] = {
+    state: JSON.parse(JSON.stringify(state)), seq,
+    obs: {1: document.getElementById('obs1').value, 2: document.getElementById('obs2').value, 3: document.getElementById('obs3').value}
+  };
+  try { localStorage.setItem('ped_db', JSON.stringify(db)); } catch(e) {}
+  renderCal();
+}
+
+function buildPayload() {
+  const a1 = state[1].filter(x=>!x.cancelado);
+  const a2 = state[2].filter(x=>!x.cancelado);
+  const a3 = state[3].filter(x=>!x.cancelado);
+  const nums = [...new Set([...a1,...a2,...a3].map(x=>x.num))].map(n=>'...'+n).join(', ');
+  return {
+    data: diaAtivo,
+    agendamentos: a1.length,
+    cancelados_agend: state[1].filter(x=>x.cancelado).length,
+    pre_agendamentos: a2.length,
+    cancelados_pre: state[2].filter(x=>x.cancelado).length,
+    reconfirmacoes: a3.length,
+    cancelados_reconf: state[3].filter(x=>x.cancelado).length,
+    total: a1.length + a2.length + a3.length,
+    numeros: nums,
+    obs_agend: document.getElementById('obs1').value,
+    obs_pre: document.getElementById('obs2').value,
+    obs_reconf: document.getElementById('obs3').value
+  };
+}
+
+async function salvarSheets() {
+  localSave();
+  setStatus('env', 'Enviando...');
+  document.getElementById('btn-salvar').disabled = true;
+  const payload = buildPayload();
+  const params = new URLSearchParams();
+  Object.keys(payload).forEach(k => params.append(k, payload[k]));
+  try {
+    const resp = await fetch(SHEETS_URL + '?' + params.toString());
+    const json = await resp.json();
+    if (json.status === 'ok') {
+      setStatus('ok', 'Salvo na planilha');
+    } else {
+      setStatus('erro', 'Erro: ' + (json.msg || 'tente novamente'));
+    }
+  } catch(e) {
+    setStatus('erro', 'Erro de conexão');
+  }
+  document.getElementById('btn-salvar').disabled = false;
+}
+
+function setStatus(tipo, msg) {
+  const el = document.getElementById('status-msg');
+  el.className = 'status-msg';
+  if (!tipo) { el.style.display = 'none'; return; }
+  if (tipo==='env') { el.classList.add('status-env'); el.innerHTML = '<i class="ti ti-loader"></i> '+msg; }
+  else if (tipo==='ok') { el.classList.add('status-ok'); el.innerHTML = '<i class="ti ti-check"></i> '+msg; setTimeout(()=>setStatus(''), 4000); }
+  else { el.classList.add('status-erro'); el.innerHTML = '<i class="ti ti-alert-circle"></i> '+msg; }
+}
+
+function virarDia() {
+  salvarSheets();
+  const hoje = toKey(new Date());
+  state = {1:[], 2:[], 3:[]}; seq = 1; diaAtivo = hoje;
+  [1,2,3].forEach(n => { document.getElementById('obs'+n).value = ''; render(n); });
+  document.getElementById('editando-badge').style.display = 'none';
+  const label = keyToLabel(hoje);
+  document.getElementById('dia-label').textContent = label.charAt(0).toUpperCase() + label.slice(1);
+  updateTotal(); renderResumo(); renderCal();
+  agendarMeiaNoite();
+}
+
+function agendarMeiaNoite() {
+  if (midnightTimer) clearTimeout(midnightTimer);
+  const agora = new Date();
+  const meia = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate()+1, 0, 0, 2);
+  midnightTimer = setTimeout(virarDia, meia - agora);
+}
+
+function render(tipo) {
+  const el = document.getElementById('marcas' + tipo);
+  const items = state[tipo];
+  if (!items.length) { el.innerHTML = '<span class="marca-hint">Nenhum ainda</span>'; return; }
+  el.innerHTML = items.map(item =>
+    '<button class="marca'+(item.cancelado?' cancelado':'')+'" onclick="toggle('+tipo+','+item.id+')" title="'+(item.cancelado?'Reativar':'Cancelar')+'">' +
+    '<i class="ti '+(item.cancelado?'ti-x':'ti-check')+'"></i>' +
+    NOMES[tipo]+' · '+item.num+'</button>'
+  ).join('');
+}
+
+function renderResumo() {
+  const el = document.getElementById('resumo-nums');
+  const mapa = {};
+  [1,2,3].forEach(t => state[t].filter(x=>!x.cancelado).forEach(x => {
+    if (!mapa[x.num]) mapa[x.num] = {1:0,2:0,3:0};
+    mapa[x.num][t]++;
+  }));
+  const nums = Object.keys(mapa).sort();
+  if (!nums.length) { el.innerHTML = '<span class="resumo-vazio">Nenhum registro ainda</span>'; return; }
+  el.innerHTML = nums.map(num => {
+    const d = mapa[num], total = d[1]+d[2]+d[3];
+    return '<div class="num-grupo"><div class="num-header"><span class="num-label">...'+num+'</span><span class="num-total">'+total+' ped.</span></div>' +
+      (d[1]?'<div class="num-linha"><span class="k"><span class="dot d1"></span>Agend.</span><span>'+d[1]+'</span></div>':'') +
+      (d[2]?'<div class="num-linha"><span class="k"><span class="dot d2"></span>Pré</span><span>'+d[2]+'</span></div>':'') +
+      (d[3]?'<div class="num-linha"><span class="k"><span class="dot d3"></span>Reconf.</span><span>'+d[3]+'</span></div>':'') +
+      '</div>';
+  }).join('');
+}
+
+function renderCal() {
+  const y = calRef.getFullYear(), m = calRef.getMonth();
+  document.getElementById('cal-mes').textContent = MESES[m]+' '+y;
+  const grid = document.getElementById('cal-grid');
+  let html = DOWS.map(d=>'<div class="cal-dow">'+d+'</div>').join('');
+  const primeiro = new Date(y,m,1).getDay();
+  for (let i=0;i<primeiro;i++) html += '<div class="cal-day vazio"></div>';
+  const dias = new Date(y,m+1,0).getDate();
+  const hoje = toKey(new Date());
+  for (let d=1;d<=dias;d++) {
+    const key = y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    let cls = 'cal-day';
+    if (key===hoje) cls+=' hoje';
+    if (db[key]) cls+=' tem-dados';
+    if (key===diaAtivo && key!==hoje) cls+=' selecionado';
+    html += '<div class="'+cls+'" onclick="loadDia(\''+key+'\')">'+d+'</div>';
+  }
+  grid.innerHTML = html;
+}
+
+function mudarMes(dir) { calRef.setMonth(calRef.getMonth()+dir); renderCal(); }
+
+function toggle(tipo, id) {
+  const item = state[tipo].find(x=>x.id===id);
+  if (item) { item.cancelado=!item.cancelado; render(tipo); updateTotal(); renderResumo(); localSave(); }
+}
+
+function updateTotal() {
+  let t = 0;
+  [1,2,3].forEach(n => t += state[n].filter(x=>!x.cancelado).length);
+  document.getElementById('total-val').textContent = t+(t===1?' pedido':' pedidos');
+}
+
+function abrirModal(tipo) {
+  tipoAtivo = tipo;
+  document.getElementById('modal-titulo').textContent = TITULOS[tipo];
+  document.getElementById('modal-input').value = '';
+  document.getElementById('modal-erro').style.display = 'none';
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('modal-input').focus(), 50);
+}
+
+function fecharModal() { document.getElementById('modal-overlay').classList.remove('open'); tipoAtivo = null; }
+
+function confirmar() {
+  const val = document.getElementById('modal-input').value.trim();
+  if (!/^\d{4}$/.test(val)) { document.getElementById('modal-erro').style.display='block'; return; }
+  state[tipoAtivo].push({id:seq++, num:val, cancelado:false});
+  render(tipoAtivo); updateTotal(); renderResumo(); localSave(); fecharModal();
+}
+
+document.getElementById('modal-input').addEventListener('keydown', function(e) {
+  if (e.key==='Enter') confirmar();
+  if (e.key==='Escape') fecharModal();
+});
+
+loadDia(diaAtivo);
+agendarMeiaNoite();
+</script>
+</body>
+</html>
