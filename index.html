@@ -10,173 +10,75 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
 <style>
 :root {
-  --paper: #F6F3EC;
-  --paper-card: #FFFFFF;
-  --ink: #2B2823;
-  --ink-soft: #8A8378;
-  --hairline: #E4DFD3;
-  --accent-agend: #2F6F4E;
-  --accent-agend-bg: #E3EFE7;
-  --accent-pre: #3D5A80;
-  --accent-pre-bg: #E5EBF2;
-  --accent-reconf: #B6712B;
-  --accent-reconf-bg: #F4E9DA;
-  --stamp: #C1432D;
-  --radius: 14px;
+  --paper: #F6F3EC; --paper-card: #FFFFFF; --ink: #2B2823; --ink-soft: #8A8378; --hairline: #E4DFD3;
+  --accent-agend: #2F6F4E; --accent-agend-bg: #E3EFE7; --accent-pre: #3D5A80; --accent-pre-bg: #E5EBF2;
+  --accent-reconf: #B6712B; --accent-reconf-bg: #F4E9DA; --stamp: #C1432D; --radius: 14px;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #1C1A17;
-    --paper-card: #26231F;
-    --ink: #EFEAE2;
-    --ink-soft: #9C9488;
-    --hairline: #3A352E;
-    --accent-agend-bg: #233830;
-    --accent-pre-bg: #232E3D;
-    --accent-reconf-bg: #3A2E1E;
-  }
+  :root { --paper: #1C1A17; --paper-card: #26231F; --ink: #EFEAE2; --ink-soft: #9C9488; --hairline: #3A352E;
+    --accent-agend-bg: #233830; --accent-pre-bg: #232E3D; --accent-reconf-bg: #3A2E1E; }
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body {
-  font-family: 'Inter', -apple-system, sans-serif;
-  background: var(--paper);
-  color: var(--ink);
-  min-height: 100vh;
-  padding: 1rem;
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(0,0,0,0.025) 1px, transparent 0);
-  background-size: 22px 22px;
-}
-@media (prefers-color-scheme: dark) {
-  body { background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.025) 1px, transparent 0); }
-}
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; padding: 1rem;
+  background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.025) 1px, transparent 0); background-size: 22px 22px; }
+@media (prefers-color-scheme: dark) { body { background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.025) 1px, transparent 0); } }
 @media (min-width: 640px) { body { padding: 2rem; } }
-
 .layout { display: grid; grid-template-columns: 1fr 230px; gap: 18px; max-width: 880px; margin: 0 auto; align-items: start; }
 @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } .painel-dir { order: 2; } }
-
-/* ---- Header ---- */
 .header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 6px; }
-.header h1 {
-  font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700;
-  letter-spacing: -0.01em;
-}
+.header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
 .header .sub { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.04em; text-transform: uppercase; }
-
-/* ---- Abas ---- */
 .tabs { display: flex; gap: 2px; margin-bottom: 18px; border-bottom: 1.5px solid var(--hairline); overflow-x: auto; }
-.tab {
-  font-family: 'Space Grotesk', sans-serif; flex: 1; text-align: center; font-size: 13px; font-weight: 600;
-  padding: 10px 8px; border: none; background: transparent; cursor: pointer; color: var(--ink-soft);
-  white-space: nowrap; position: relative; top: 1.5px; border-bottom: 2.5px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
-}
+.tab { font-family: 'Space Grotesk', sans-serif; flex: 1; text-align: center; font-size: 13px; font-weight: 600; padding: 10px 8px; border: none; background: transparent; cursor: pointer; color: var(--ink-soft); white-space: nowrap; position: relative; top: 1.5px; border-bottom: 2.5px solid transparent; transition: color 0.15s, border-color 0.15s; }
 .tab.ativa { color: var(--ink); border-bottom-color: var(--stamp); }
 .tab:active { opacity: 0.7; }
-
-.dia-label {
-  font-size: 13px; color: var(--ink-soft); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.01em;
-}
-.editando-badge {
-  font-size: 11px; padding: 3px 9px; border-radius: 20px; background: var(--accent-reconf-bg); color: var(--accent-reconf);
-  font-weight: 600; font-family: 'Inter', sans-serif; letter-spacing: 0;
-}
-
-/* ---- Blocos ---- */
-.bloco {
-  background: var(--paper-card); border: 1px solid var(--hairline); border-radius: var(--radius);
-  padding: 1.1rem 1.25rem; margin-bottom: 12px;
-  box-shadow: 0 1px 2px rgba(43,40,35,0.04);
-  position: relative; overflow: hidden;
-}
-.bloco::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
-}
-.t1::before { background: var(--accent-agend); }
-.t2::before { background: var(--accent-pre); }
-.t3::before { background: var(--accent-reconf); }
-
+.dia-label { font-size: 13px; color: var(--ink-soft); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-family: 'IBM Plex Mono', monospace; }
+.editando-badge { font-size: 11px; padding: 3px 9px; border-radius: 20px; background: var(--accent-reconf-bg); color: var(--accent-reconf); font-weight: 600; font-family: 'Inter', sans-serif; }
+.bloco { background: var(--paper-card); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 1.1rem 1.25rem; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(43,40,35,0.04); position: relative; overflow: hidden; }
+.bloco::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+.t1::before { background: var(--accent-agend); } .t2::before { background: var(--accent-pre); } .t3::before { background: var(--accent-reconf); }
 .bloco-titulo { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; }
 .bloco-desc { font-size: 12px; color: var(--ink-soft); margin-top: 2px; margin-bottom: 12px; }
-
 .marcacoes { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; min-height: 32px; align-items: center; }
-.marca {
-  display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 6px 11px 6px 8px;
-  border-radius: 8px; font-weight: 600; cursor: pointer; border: 1px dashed transparent;
-  font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.02em; transition: opacity 0.1s, transform 0.1s;
-}
+.marca { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 6px 11px 6px 8px; border-radius: 8px; font-weight: 600; cursor: pointer; border: 1px dashed transparent; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.02em; transition: opacity 0.1s, transform 0.1s; }
 .marca:active { transform: scale(0.97); }
 .marca.cancelado { text-decoration: line-through; opacity: 0.4; border-style: solid; }
-.marca i { font-size: 13px; font-family: 'tabler-icons'; }
+.marca.pendente { opacity: 0.55; }
+.marca i { font-size: 13px; }
 .marca .tag { font-family: 'Inter', sans-serif; font-weight: 500; opacity: 0.75; font-size: 11px; }
 .t1 .marca { background: var(--accent-agend-bg); color: var(--accent-agend); }
 .t2 .marca { background: var(--accent-pre-bg); color: var(--accent-pre); }
 .t3 .marca { background: var(--accent-reconf-bg); color: var(--accent-reconf); }
 .marca-hint { font-size: 12px; color: var(--ink-soft); font-style: italic; }
-
-.btn-add {
-  display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 10px 18px;
-  border-radius: 9px; background: transparent; border: 1.5px solid var(--ink); cursor: pointer;
-  color: var(--ink); width: 100%; justify-content: center; font-weight: 600;
-  font-family: 'Space Grotesk', sans-serif; transition: background 0.12s, color 0.12s;
-}
+.btn-add { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 10px 18px; border-radius: 9px; background: transparent; border: 1.5px solid var(--ink); cursor: pointer; color: var(--ink); width: 100%; justify-content: center; font-weight: 600; font-family: 'Space Grotesk', sans-serif; transition: background 0.12s, color 0.12s; }
 @media (min-width: 480px) { .btn-add { width: auto; } }
 .btn-add:active { background: var(--ink); color: var(--paper-card); }
-
-.obs-input {
-  font-size: 13px; width: 100%; margin-top: 10px; padding: 9px 11px; border: 1px solid var(--hairline);
-  border-radius: 9px; background: transparent; color: inherit; outline: none; font-family: 'Inter', sans-serif;
-}
+.btn-add:disabled { opacity: 0.4; cursor: not-allowed; }
+.obs-input { font-size: 13px; width: 100%; margin-top: 10px; padding: 9px 11px; border: 1px solid var(--hairline); border-radius: 9px; background: transparent; color: inherit; outline: none; font-family: 'Inter', sans-serif; }
 .obs-input::placeholder { color: var(--ink-soft); }
 .obs-input:focus { border-color: var(--ink-soft); }
-
 hr { border: none; border-top: 1.5px dashed var(--hairline); margin: 1.5rem 0; }
-
-/* ---- Footer ---- */
 .footer { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 .total-label { font-size: 11px; color: var(--ink-soft); margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
 .total-val { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; }
-.btn-salvar {
-  display: inline-flex; align-items: center; gap: 7px; font-size: 14px; padding: 11px 22px;
-  background: var(--ink); color: var(--paper); border: none; border-radius: 9px; cursor: pointer;
-  font-weight: 600; font-family: 'Space Grotesk', sans-serif;
-}
-.btn-salvar:active { opacity: 0.8; }
-.btn-salvar:disabled { opacity: 0.5; cursor: not-allowed; }
-
-/* ---- Painel direito ---- */
+.sync-info { font-size: 11px; color: var(--ink-soft); display: flex; align-items: center; gap: 5px; font-family: 'IBM Plex Mono', monospace; }
+.sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-agend); }
+.sync-dot.off { background: var(--stamp); }
+.sync-dot.pend { background: var(--accent-reconf); }
 .painel-dir { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 14px; }
 @media (max-width: 760px) { .painel-dir { position: static; } }
-.box {
-  background: var(--paper-card); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 1.1rem;
-  box-shadow: 0 1px 2px rgba(43,40,35,0.04);
-}
-.box-titulo {
-  font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; margin-bottom: 12px;
-  text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft);
-}
-
-/* ---- Calendário ---- */
+.box { background: var(--paper-card); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 1.1rem; box-shadow: 0 1px 2px rgba(43,40,35,0.04); }
+.box-titulo { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); }
 .cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .cal-nav button { background: none; border: none; cursor: pointer; color: var(--ink-soft); font-size: 18px; padding: 4px 8px; border-radius: 6px; }
-.cal-nav button:active { background: var(--paper); }
 .cal-mes { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 .cal-dow { font-size: 10px; color: var(--ink-soft); text-align: center; padding-bottom: 4px; font-weight: 600; }
-.cal-day {
-  font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-align: center; padding: 6px 2px;
-  border-radius: 6px; cursor: pointer; color: var(--ink-soft);
-}
-.cal-day:active { background: var(--paper); }
+.cal-day { font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-align: center; padding: 6px 2px; border-radius: 6px; cursor: pointer; color: var(--ink-soft); }
 .cal-day.hoje { background: var(--ink); color: var(--paper); border-radius: 50%; }
 .cal-day.tem-dados { color: var(--ink); font-weight: 700; }
-.cal-day.tem-dados::after { content: ''; display: block; width: 3px; height: 3px; border-radius: 50%; background: var(--stamp); margin: 2px auto 0; }
-.cal-day.hoje.tem-dados::after { background: var(--paper); }
 .cal-day.selecionado { outline: 1.5px solid var(--accent-pre); border-radius: 6px; }
 .cal-day.vazio { cursor: default; pointer-events: none; }
-
-/* ---- Resumo por número ---- */
 .num-grupo { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--hairline); }
 .num-grupo:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
 .num-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
@@ -187,43 +89,20 @@ hr { border: none; border-top: 1.5px dashed var(--hairline); margin: 1.5rem 0; }
 .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-right: 5px; }
 .d1{background: var(--accent-agend);} .d2{background: var(--accent-pre);} .d3{background: var(--accent-reconf);}
 .resumo-vazio { font-size: 12px; color: var(--ink-soft); font-style: italic; }
-
-/* ---- Status ---- */
-.status-msg { font-size: 12px; display: none; align-items: center; gap: 5px; font-weight: 500; }
-.status-ok { color: var(--accent-agend); display: inline-flex !important; }
-.status-erro { color: var(--stamp); display: inline-flex !important; }
-.status-env { color: var(--ink-soft); display: inline-flex !important; }
-
-/* ---- Modal ---- */
-.modal-overlay {
-  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(43,40,35,0.45);
-  align-items: center; justify-content: center; z-index: 100; padding: 1rem; backdrop-filter: blur(2px);
-}
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(43,40,35,0.45); align-items: center; justify-content: center; z-index: 100; padding: 1rem; backdrop-filter: blur(2px); }
 .modal-overlay.open { display: flex; }
-.modal {
-  background: var(--paper-card); border-radius: var(--radius); padding: 1.6rem; width: 100%; max-width: 290px;
-  box-shadow: 0 12px 40px rgba(43,40,35,0.18); border: 1px solid var(--hairline);
-}
+.modal { background: var(--paper-card); border-radius: var(--radius); padding: 1.6rem; width: 100%; max-width: 290px; box-shadow: 0 12px 40px rgba(43,40,35,0.18); border: 1px solid var(--hairline); }
 .modal-titulo { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
 .modal-sub { font-size: 12px; color: var(--ink-soft); margin-bottom: 16px; }
-.modal-input {
-  font-family: 'IBM Plex Mono', monospace; font-size: 26px; width: 100%; text-align: center; letter-spacing: 10px;
-  margin-bottom: 10px; padding: 12px; border: 1.5px solid var(--hairline); border-radius: 10px;
-  background: var(--paper); color: var(--ink); outline: none;
-}
+.modal-input { font-family: 'IBM Plex Mono', monospace; font-size: 26px; width: 100%; text-align: center; letter-spacing: 10px; margin-bottom: 10px; padding: 12px; border: 1.5px solid var(--hairline); border-radius: 10px; background: var(--paper); color: var(--ink); outline: none; }
 .modal-input:focus { border-color: var(--accent-pre); }
 .modal-erro { font-size: 12px; color: var(--stamp); margin-bottom: 8px; display: none; }
 .modal-acoes { display: flex; gap: 8px; }
 .modal-acoes button { flex: 1; font-size: 14px; padding: 11px; border-radius: 9px; cursor: pointer; border: 1.5px solid var(--hairline); font-family: 'Space Grotesk', sans-serif; font-weight: 600; }
 .btn-ok { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .btn-vol { background: none; color: var(--ink-soft); }
-
-/* ---- Geral ---- */
-.geral-card {
-  background: var(--paper-card); border: 1px solid var(--hairline); border-radius: var(--radius);
-  padding: 1.1rem 1.25rem; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(43,40,35,0.04);
-}
-.geral-titulo { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+.geral-card { background: var(--paper-card); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 1.1rem 1.25rem; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(43,40,35,0.04); }
+.geral-titulo { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
 .geral-linha { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; }
 .geral-linha .k { color: var(--ink-soft); display: flex; align-items: center; }
 .geral-total { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; margin-top: 6px; }
@@ -231,7 +110,15 @@ hr { border: none; border-top: 1.5px dashed var(--hairline); margin: 1.5rem 0; }
 .geral-func-row:last-child { border-bottom: none; }
 .geral-func-row .nome { font-family: 'Space Grotesk', sans-serif; font-weight: 600; }
 .geral-func-row .breakdown { color: var(--ink-soft); font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
-.geral-aviso { font-size: 11px; color: var(--ink-soft); margin-top: 10px; line-height: 1.5; }
+.feed-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--hairline); font-size: 12px; }
+.feed-item:last-child { border-bottom: none; }
+.feed-item.cancelado { opacity: 0.4; text-decoration: line-through; }
+.feed-hora { font-family: 'IBM Plex Mono', monospace; color: var(--ink-soft); font-size: 11px; }
+.feed-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.feed-func { font-weight: 600; }
+.feed-num { font-family: 'IBM Plex Mono', monospace; margin-left: auto; color: var(--ink-soft); }
+.atualiza-btn { font-size: 11px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--hairline); background: transparent; color: var(--ink-soft); cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 500; }
+.loading-feed { font-size: 12px; color: var(--ink-soft); font-style: italic; padding: 8px 0; }
 </style>
 </head>
 <body>
@@ -253,7 +140,7 @@ hr { border: none; border-top: 1.5px dashed var(--hairline); margin: 1.5rem 0; }
   <div>
     <div class="header">
       <h1>Pedidos COD</h1>
-      <span class="sub">registro diário</span>
+      <span class="sub">tempo real</span>
     </div>
 
     <div class="tabs" id="tabs"></div>
@@ -261,7 +148,6 @@ hr { border: none; border-top: 1.5px dashed var(--hairline); margin: 1.5rem 0; }
     <div id="painel-funcionario">
       <div class="dia-label">
         <span id="dia-label"></span>
-        <span class="editando-badge" id="editando-badge" style="display:none">Editando dia anterior</span>
       </div>
 
       <div class="bloco t1">
@@ -269,7 +155,6 @@ hr { border: none; border-top: 1.5px dashed var(--hairline); margin: 1.5rem 0; }
         <div class="bloco-desc">Pedido fechado, entrega amanhã</div>
         <div class="marcacoes" id="marcas1"></div>
         <button class="btn-add" onclick="abrirModal(1)"><i class="ti ti-plus"></i> Feito</button>
-        <input class="obs-input" type="text" id="obs1" placeholder="Observação (opcional)..." oninput="localSave()" />
       </div>
 
       <div class="bloco t2">
@@ -277,7 +162,6 @@ hr { border: none; border-top: 1.5px dashed var(--hairline); margin: 1.5rem 0; }
         <div class="bloco-desc">Entrega marcada para 1–2 semanas</div>
         <div class="marcacoes" id="marcas2"></div>
         <button class="btn-add" onclick="abrirModal(2)"><i class="ti ti-plus"></i> Agendado</button>
-        <input class="obs-input" type="text" id="obs2" placeholder="Observação (opcional)..." oninput="localSave()" />
       </div>
 
       <div class="bloco t3">
@@ -285,7 +169,6 @@ hr { border: none; border-top: 1.5px dashed var(--hairline); margin: 1.5rem 0; }
         <div class="bloco-desc">Pré-agendamento anterior confirmado hoje</div>
         <div class="marcacoes" id="marcas3"></div>
         <button class="btn-add" onclick="abrirModal(3)"><i class="ti ti-plus"></i> Confirmado</button>
-        <input class="obs-input" type="text" id="obs3" placeholder="Observação (opcional)..." oninput="localSave()" />
       </div>
 
       <hr />
@@ -296,8 +179,7 @@ hr { border: none; border-top: 1.5px dashed var(--hairline); margin: 1.5rem 0; }
           <div class="total-val" id="total-val">0 pedidos</div>
         </div>
         <div style="flex:1"></div>
-        <span class="status-msg" id="status-msg"></span>
-        <button class="btn-salvar" id="btn-salvar" onclick="salvarSheets()"><i class="ti ti-device-floppy"></i> Salvar dia</button>
+        <div class="sync-info" id="sync-info"><span class="sync-dot" id="sync-dot"></span><span id="sync-text">Sincronizado</span></div>
       </div>
     </div>
 
@@ -323,26 +205,25 @@ hr { border: none; border-top: 1.5px dashed var(--hairline); margin: 1.5rem 0; }
 <script>
 const SHEETS_URL = 'https://script.google.com/macros/s/AKfycby9zv_zACS0h0lMctLfOGGHmCY8acdTmsGSkOvTaUMgnJE6ZayUz17hlmNNZZ0Gh5Ix/exec';
 const NOMES = {1:'feito', 2:'agendado', 3:'confirmado'};
+const TIPO_API = {1:'Agendamento', 2:'Pré-agendamento', 3:'Reconfirmação'};
 const TITULOS = {1:'Agendamento', 2:'Pré-agendamento', 3:'Reconfirmação'};
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DOWS = ['D','S','T','Q','Q','S','S'];
 const FUNCIONARIOS = ['Vini', 'Raphael', 'Guida'];
 
 let state = {1:[], 2:[], 3:[]};
-let seq = 1, tipoAtivo = null;
+let tipoAtivo = null;
 let diaAtivo = toKey(new Date());
 let calRef = new Date();
-let db = {};
-let midnightTimer = null;
 let abaAtiva = FUNCIONARIOS[0];
+let filaPendente = [];
+let geralTimer = null;
 
-function toKey(d) {
-  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
-}
-function keyToLabel(k) {
-  const [y,m,d] = k.split('-');
-  return new Date(+y,+m-1,+d).toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
-}
+function toKey(d) { return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function keyToLabel(k) { const [y,m,d]=k.split('-'); return new Date(+y,+m-1,+d).toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'}); }
+function gerarId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+try { filaPendente = JSON.parse(localStorage.getItem('ped_fila') || '[]'); } catch(e) { filaPendente = []; }
 
 // ---------- Abas ----------
 function renderTabs() {
@@ -355,192 +236,171 @@ function renderTabs() {
 function trocarAba(nome) {
   abaAtiva = nome;
   renderTabs();
+  if (geralTimer) { clearInterval(geralTimer); geralTimer = null; }
   if (nome === 'Geral') {
     document.getElementById('painel-funcionario').style.display = 'none';
     document.getElementById('painel-geral').style.display = 'block';
     document.getElementById('box-resumo-num').style.display = 'none';
-    renderGeral();
+    carregarGeral();
+    geralTimer = setInterval(carregarGeral, 30000);
   } else {
     document.getElementById('painel-funcionario').style.display = 'block';
     document.getElementById('painel-geral').style.display = 'none';
     document.getElementById('box-resumo-num').style.display = 'block';
-    carregarDB();
+    carregarLocal();
     loadDia(diaAtivo);
   }
 }
 
-// ---------- DB por funcionário ----------
-function carregarDB() {
-  try { db = JSON.parse(localStorage.getItem('ped_db_' + abaAtiva) || '{}'); } catch(e) { db = {}; }
+// ---------- Estado local por funcionário ----------
+function carregarLocal() {
+  try { state = JSON.parse(localStorage.getItem('ped_state_'+abaAtiva+'_'+diaAtivo) || '{"1":[],"2":[],"3":[]}'); }
+  catch(e) { state = {1:[],2:[],3:[]}; }
+}
+function salvarLocal() {
+  try { localStorage.setItem('ped_state_'+abaAtiva+'_'+diaAtivo, JSON.stringify(state)); } catch(e){}
 }
 
 function loadDia(key) {
   diaAtivo = key;
-  const rec = db[key];
-  if (rec) {
-    state = JSON.parse(JSON.stringify(rec.state));
-    seq = rec.seq || 1;
-    [1,2,3].forEach(n => { document.getElementById('obs'+n).value = rec.obs[n] || ''; });
-  } else {
-    state = {1:[], 2:[], 3:[]}; seq = 1;
-    [1,2,3].forEach(n => { document.getElementById('obs'+n).value = ''; });
-  }
+  carregarLocal();
   const hoje = toKey(new Date());
   const label = keyToLabel(key);
-  document.getElementById('dia-label').textContent = label.charAt(0).toUpperCase() + label.slice(1);
-  document.getElementById('editando-badge').style.display = key !== hoje ? 'inline-block' : 'none';
+  document.getElementById('dia-label').textContent = label.charAt(0).toUpperCase()+label.slice(1);
   [1,2,3].forEach(n => render(n));
-  updateTotal(); renderResumo(); renderCal(); setStatus('');
+  updateTotal(); renderResumo(); renderCal();
 }
 
-function localSave() {
-  db[diaAtivo] = {
-    state: JSON.parse(JSON.stringify(state)), seq,
-    obs: {1: document.getElementById('obs1').value, 2: document.getElementById('obs2').value, 3: document.getElementById('obs3').value}
-  };
-  try { localStorage.setItem('ped_db_' + abaAtiva, JSON.stringify(db)); } catch(e) {}
-  renderCal();
+// ---------- Envio em tempo real ----------
+function enfileirar(evento) {
+  filaPendente.push(evento);
+  try { localStorage.setItem('ped_fila', JSON.stringify(filaPendente)); } catch(e){}
+  processarFila();
 }
 
-function buildPayload() {
-  const a1 = state[1].filter(x=>!x.cancelado);
-  const a2 = state[2].filter(x=>!x.cancelado);
-  const a3 = state[3].filter(x=>!x.cancelado);
-  const nums = [...new Set([...a1,...a2,...a3].map(x=>x.num))].map(n=>'...'+n).join(', ');
-  return {
-    data: diaAtivo,
-    agendamentos: a1.length,
-    cancelados_agend: state[1].filter(x=>x.cancelado).length,
-    pre_agendamentos: a2.length,
-    cancelados_pre: state[2].filter(x=>x.cancelado).length,
-    reconfirmacoes: a3.length,
-    cancelados_reconf: state[3].filter(x=>x.cancelado).length,
-    total: a1.length + a2.length + a3.length,
-    numeros: nums,
-    obs_agend: document.getElementById('obs1').value,
-    obs_pre: document.getElementById('obs2').value,
-    obs_reconf: document.getElementById('obs3').value,
-    funcionario: abaAtiva
-  };
-}
-
-async function salvarSheets() {
-  localSave();
-  setStatus('env', 'Enviando...');
-  document.getElementById('btn-salvar').disabled = true;
-  const payload = buildPayload();
-  const params = new URLSearchParams();
-  Object.keys(payload).forEach(k => params.append(k, payload[k]));
+async function processarFila() {
+  if (!filaPendente.length) { atualizarSync(); return; }
+  atualizarSync();
+  const evento = filaPendente[0];
+  const params = new URLSearchParams(evento);
   try {
     const resp = await fetch(SHEETS_URL + '?' + params.toString());
     const json = await resp.json();
     if (json.status === 'ok') {
-      setStatus('ok', 'Salvo na planilha');
+      filaPendente.shift();
+      try { localStorage.setItem('ped_fila', JSON.stringify(filaPendente)); } catch(e){}
+      // marca como sincronizado no state
+      marcarSincronizado(evento.id);
+      if (filaPendente.length) processarFila(); else atualizarSync();
     } else {
-      setStatus('erro', 'Erro: ' + (json.msg || 'tente novamente'));
+      atualizarSync(true);
     }
   } catch(e) {
-    setStatus('erro', 'Erro de conexão');
+    atualizarSync(true);
   }
-  document.getElementById('btn-salvar').disabled = false;
 }
 
-function setStatus(tipo, msg) {
-  const el = document.getElementById('status-msg');
-  el.className = 'status-msg';
-  if (!tipo) { el.style.display = 'none'; return; }
-  if (tipo==='env') { el.classList.add('status-env'); el.innerHTML = '<i class="ti ti-loader"></i> '+msg; }
-  else if (tipo==='ok') { el.classList.add('status-ok'); el.innerHTML = '<i class="ti ti-check"></i> '+msg; setTimeout(()=>setStatus(''), 4000); }
-  else { el.classList.add('status-erro'); el.innerHTML = '<i class="ti ti-alert-circle"></i> '+msg; }
+function marcarSincronizado(id) {
+  [1,2,3].forEach(t => {
+    const item = state[t].find(x => x.id === id);
+    if (item) item.pendente = false;
+  });
+  salvarLocal();
+  if (abaAtiva !== 'Geral') [1,2,3].forEach(n => render(n));
 }
 
-function virarDia() {
-  if (abaAtiva !== 'Geral') salvarSheets();
-  const hoje = toKey(new Date());
-  state = {1:[], 2:[], 3:[]}; seq = 1; diaAtivo = hoje;
-  if (abaAtiva !== 'Geral') {
-    [1,2,3].forEach(n => { document.getElementById('obs'+n).value = ''; render(n); });
-    document.getElementById('editando-badge').style.display = 'none';
-    const label = keyToLabel(hoje);
-    document.getElementById('dia-label').textContent = label.charAt(0).toUpperCase() + label.slice(1);
-    updateTotal(); renderResumo(); renderCal();
+function atualizarSync(falha) {
+  const dot = document.getElementById('sync-dot');
+  const txt = document.getElementById('sync-text');
+  if (!dot) return;
+  if (filaPendente.length) {
+    dot.className = 'sync-dot ' + (falha ? 'off' : 'pend');
+    txt.textContent = falha ? 'Sem conexão — vai reenviar' : 'Enviando ('+filaPendente.length+')';
+  } else {
+    dot.className = 'sync-dot';
+    txt.textContent = 'Sincronizado';
   }
-  agendarMeiaNoite();
 }
 
-function agendarMeiaNoite() {
-  if (midnightTimer) clearTimeout(midnightTimer);
-  const agora = new Date();
-  const meia = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate()+1, 0, 0, 2);
-  midnightTimer = setTimeout(virarDia, meia - agora);
-}
+// reenvio periódico da fila (caso tenha falhado)
+setInterval(() => { if (filaPendente.length) processarFila(); }, 15000);
+window.addEventListener('online', processarFila);
 
+// ---------- Marcações ----------
 function render(tipo) {
-  const el = document.getElementById('marcas' + tipo);
+  const el = document.getElementById('marcas'+tipo);
+  if (!el) return;
   const items = state[tipo];
   if (!items.length) { el.innerHTML = '<span class="marca-hint">Nenhum ainda</span>'; return; }
   el.innerHTML = items.map(item =>
-    '<button class="marca'+(item.cancelado?' cancelado':'')+'" onclick="toggle('+tipo+','+item.id+')" title="'+(item.cancelado?'Reativar':'Cancelar')+'">' +
-    '<i class="ti '+(item.cancelado?'ti-x':'ti-check')+'"></i>' +
+    '<button class="marca'+(item.cancelado?' cancelado':'')+(item.pendente?' pendente':'')+'" onclick="toggle('+tipo+',\''+item.id+'\')" title="'+(item.cancelado?'Reativar':'Cancelar')+'">' +
+    '<i class="ti '+(item.pendente?'ti-loader':(item.cancelado?'ti-x':'ti-check'))+'"></i>' +
     '<span class="tag">'+NOMES[tipo]+'</span> '+item.num+'</button>'
   ).join('');
 }
 
+function toggle(tipo, id) {
+  const item = state[tipo].find(x=>x.id===id);
+  if (!item) return;
+  item.cancelado = !item.cancelado;
+  item.pendente = true;
+  salvarLocal();
+  render(tipo); updateTotal(); renderResumo();
+  enfileirar({
+    acao: 'cancelar', id: id, status: item.cancelado ? 'cancelado' : 'ativo'
+  });
+}
+
+function updateTotal() {
+  let t = 0; [1,2,3].forEach(n => t += state[n].filter(x=>!x.cancelado).length);
+  const el = document.getElementById('total-val');
+  if (el) el.textContent = t+(t===1?' pedido':' pedidos');
+}
+
 function renderResumo() {
   const el = document.getElementById('resumo-nums');
+  if (!el) return;
   const mapa = {};
   [1,2,3].forEach(t => state[t].filter(x=>!x.cancelado).forEach(x => {
-    if (!mapa[x.num]) mapa[x.num] = {1:0,2:0,3:0};
-    mapa[x.num][t]++;
+    if (!mapa[x.num]) mapa[x.num]={1:0,2:0,3:0}; mapa[x.num][t]++;
   }));
   const nums = Object.keys(mapa).sort();
-  if (!nums.length) { el.innerHTML = '<span class="resumo-vazio">Nenhum registro ainda</span>'; return; }
+  if (!nums.length) { el.innerHTML='<span class="resumo-vazio">Nenhum registro ainda</span>'; return; }
   el.innerHTML = nums.map(num => {
-    const d = mapa[num], total = d[1]+d[2]+d[3];
-    return '<div class="num-grupo"><div class="num-header"><span class="num-label">···'+num+'</span><span class="num-total">'+total+' ped.</span></div>' +
-      (d[1]?'<div class="num-linha"><span class="k"><span class="dot d1"></span>Agend.</span><span>'+d[1]+'</span></div>':'') +
-      (d[2]?'<div class="num-linha"><span class="k"><span class="dot d2"></span>Pré</span><span>'+d[2]+'</span></div>':'') +
-      (d[3]?'<div class="num-linha"><span class="k"><span class="dot d3"></span>Reconf.</span><span>'+d[3]+'</span></div>':'') +
+    const d=mapa[num], total=d[1]+d[2]+d[3];
+    return '<div class="num-grupo"><div class="num-header"><span class="num-label">···'+num+'</span><span class="num-total">'+total+' ped.</span></div>'+
+      (d[1]?'<div class="num-linha"><span class="k"><span class="dot d1"></span>Agend.</span><span>'+d[1]+'</span></div>':'')+
+      (d[2]?'<div class="num-linha"><span class="k"><span class="dot d2"></span>Pré</span><span>'+d[2]+'</span></div>':'')+
+      (d[3]?'<div class="num-linha"><span class="k"><span class="dot d3"></span>Reconf.</span><span>'+d[3]+'</span></div>':'')+
       '</div>';
   }).join('');
 }
 
 function renderCal() {
-  const y = calRef.getFullYear(), m = calRef.getMonth();
+  const y=calRef.getFullYear(), m=calRef.getMonth();
   document.getElementById('cal-mes').textContent = MESES[m]+' '+y;
   const grid = document.getElementById('cal-grid');
   let html = DOWS.map(d=>'<div class="cal-dow">'+d+'</div>').join('');
   const primeiro = new Date(y,m,1).getDay();
-  for (let i=0;i<primeiro;i++) html += '<div class="cal-day vazio"></div>';
+  for (let i=0;i<primeiro;i++) html+='<div class="cal-day vazio"></div>';
   const dias = new Date(y,m+1,0).getDate();
   const hoje = toKey(new Date());
   for (let d=1;d<=dias;d++) {
     const key = y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    let cls = 'cal-day';
+    let cls='cal-day';
     if (key===hoje) cls+=' hoje';
-    if (db[key]) cls+=' tem-dados';
+    let temDados=false;
+    try { temDados = !!localStorage.getItem('ped_state_'+abaAtiva+'_'+key); } catch(e){}
+    if (temDados) cls+=' tem-dados';
     if (key===diaAtivo && key!==hoje) cls+=' selecionado';
-    html += '<div class="'+cls+'" onclick="loadDia(\''+key+'\')">'+d+'</div>';
+    html+='<div class="'+cls+'" onclick="loadDia(\''+key+'\')">'+d+'</div>';
   }
   grid.innerHTML = html;
 }
 
-function mudarMes(dir) {
-  calRef.setMonth(calRef.getMonth()+dir);
-  if (abaAtiva === 'Geral') renderGeral(); else renderCal();
-}
+function mudarMes(dir) { calRef.setMonth(calRef.getMonth()+dir); if (abaAtiva==='Geral') renderGeralCal(); else renderCal(); }
 
-function toggle(tipo, id) {
-  const item = state[tipo].find(x=>x.id===id);
-  if (item) { item.cancelado=!item.cancelado; render(tipo); updateTotal(); renderResumo(); localSave(); }
-}
-
-function updateTotal() {
-  let t = 0;
-  [1,2,3].forEach(n => t += state[n].filter(x=>!x.cancelado).length);
-  document.getElementById('total-val').textContent = t+(t===1?' pedido':' pedidos');
-}
-
+// ---------- Modal ----------
 function abrirModal(tipo) {
   tipoAtivo = tipo;
   document.getElementById('modal-titulo').textContent = TITULOS[tipo];
@@ -549,88 +409,136 @@ function abrirModal(tipo) {
   document.getElementById('modal-overlay').classList.add('open');
   setTimeout(()=>document.getElementById('modal-input').focus(), 50);
 }
+function fecharModal() { document.getElementById('modal-overlay').classList.remove('open'); tipoAtivo=null; }
 
-function fecharModal() { document.getElementById('modal-overlay').classList.remove('open'); tipoAtivo = null; }
-
+let salvandoModal = false;
 function confirmar() {
+  if (salvandoModal) return;
   const val = document.getElementById('modal-input').value.trim();
   if (!/^\d{4}$/.test(val)) { document.getElementById('modal-erro').style.display='block'; return; }
-  state[tipoAtivo].push({id:seq++, num:val, cancelado:false});
-  render(tipoAtivo); updateTotal(); renderResumo(); localSave(); fecharModal();
+  salvandoModal = true;
+  const id = gerarId();
+  state[tipoAtivo].push({id:id, num:val, cancelado:false, pendente:true});
+  salvarLocal();
+  render(tipoAtivo); updateTotal(); renderResumo();
+  enfileirar({
+    acao: 'registrar', data: diaAtivo, funcionario: abaAtiva,
+    tipo: TIPO_API[tipoAtivo], numero: val, id: id
+  });
+  fecharModal();
+  setTimeout(()=>{ salvandoModal=false; }, 400);
 }
 
-document.getElementById('modal-input').addEventListener('keydown', function(e) {
+document.getElementById('modal-input').addEventListener('keydown', function(e){
   if (e.key==='Enter') confirmar();
   if (e.key==='Escape') fecharModal();
 });
 
-// ---------- Aba Geral ----------
-function renderGeral() {
-  const y = calRef.getFullYear(), m = calRef.getMonth();
-  let html = '<div class="geral-card">';
-  html += '<div class="cal-nav"><button onclick="mudarMes(-1)"><i class="ti ti-chevron-left"></i></button><span class="cal-mes">'+MESES[m]+' '+y+'</span><button onclick="mudarMes(1)"><i class="ti ti-chevron-right"></i></button></div>';
-  html += '<div class="geral-titulo" style="margin-top:14px">Resumo de '+keyToLabel(diaAtivo)+'</div>';
-
-  let totGeral = {1:0,2:0,3:0};
-  let porFunc = {};
-  FUNCIONARIOS.forEach(f => {
-    let dbf = {};
-    try { dbf = JSON.parse(localStorage.getItem('ped_db_'+f) || '{}'); } catch(e) {}
-    const rec = dbf[diaAtivo];
-    let t1=0,t2=0,t3=0;
-    if (rec) {
-      t1 = rec.state[1].filter(x=>!x.cancelado).length;
-      t2 = rec.state[2].filter(x=>!x.cancelado).length;
-      t3 = rec.state[3].filter(x=>!x.cancelado).length;
+// ---------- Aba Geral (tempo real da planilha) ----------
+async function carregarGeral() {
+  const cont = document.getElementById('painel-geral');
+  if (!cont.dataset.loaded) cont.innerHTML = '<div class="geral-card"><span class="loading-feed">Carregando dados...</span></div>';
+  try {
+    const params = new URLSearchParams({acao:'listar', data: diaAtivo});
+    const resp = await fetch(SHEETS_URL + '?' + params.toString());
+    const json = await resp.json();
+    if (json.status === 'ok') {
+      renderGeral(json.eventos || []);
+      cont.dataset.loaded = '1';
     }
-    porFunc[f] = {1:t1,2:t2,3:t3,total:t1+t2+t3};
-    totGeral[1]+=t1; totGeral[2]+=t2; totGeral[3]+=t3;
-  });
-  const totalDia = totGeral[1]+totGeral[2]+totGeral[3];
+  } catch(e) {
+    if (!cont.dataset.loaded) cont.innerHTML = '<div class="geral-card"><span class="loading-feed">Erro ao carregar. Tentando de novo...</span></div>';
+  }
+}
 
-  html += '<div class="geral-linha"><span class="k"><span class="dot d1"></span>Agendamentos</span><span>'+totGeral[1]+'</span></div>';
-  html += '<div class="geral-linha"><span class="k"><span class="dot d2"></span>Pré-agendamentos</span><span>'+totGeral[2]+'</span></div>';
-  html += '<div class="geral-linha"><span class="k"><span class="dot d3"></span>Reconfirmações</span><span>'+totGeral[3]+'</span></div>';
+function renderGeral(eventos) {
+  const ativos = eventos.filter(e => e.status === 'ativo');
+  let totGeral = {Agendamento:0,'Pré-agendamento':0,'Reconfirmação':0};
+  let porFunc = {};
+  FUNCIONARIOS.forEach(f => porFunc[f] = {ag:0,pre:0,re:0,total:0});
+
+  ativos.forEach(e => {
+    if (totGeral[e.tipo] !== undefined) totGeral[e.tipo]++;
+    if (!porFunc[e.funcionario]) porFunc[e.funcionario] = {ag:0,pre:0,re:0,total:0};
+    if (e.tipo==='Agendamento') porFunc[e.funcionario].ag++;
+    else if (e.tipo==='Pré-agendamento') porFunc[e.funcionario].pre++;
+    else if (e.tipo==='Reconfirmação') porFunc[e.funcionario].re++;
+    porFunc[e.funcionario].total++;
+  });
+  const totalDia = totGeral.Agendamento + totGeral['Pré-agendamento'] + totGeral['Reconfirmação'];
+  const agora = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+
+  let html = '';
+  html += '<div class="geral-card">';
+  html += '<div class="cal-nav"><button onclick="mudarMes(-1)"><i class="ti ti-chevron-left"></i></button><span class="cal-mes">'+MESES[calRef.getMonth()]+' '+calRef.getFullYear()+'</span><button onclick="mudarMes(1)"><i class="ti ti-chevron-right"></i></button></div>';
+  html += '<div class="geral-titulo" style="margin-top:14px">'+keyToLabel(diaAtivo)+'<span style="font-size:11px;color:var(--ink-soft);font-weight:400">atualizado '+agora+'</span></div>';
+  html += '<div class="geral-linha"><span class="k"><span class="dot d1"></span>Agendamentos</span><span>'+totGeral.Agendamento+'</span></div>';
+  html += '<div class="geral-linha"><span class="k"><span class="dot d2"></span>Pré-agendamentos</span><span>'+totGeral['Pré-agendamento']+'</span></div>';
+  html += '<div class="geral-linha"><span class="k"><span class="dot d3"></span>Reconfirmações</span><span>'+totGeral['Reconfirmação']+'</span></div>';
   html += '<div class="geral-total">'+totalDia+' pedido'+(totalDia!==1?'s':'')+'</div>';
   html += '</div>';
 
   html += '<div class="geral-card"><div class="geral-titulo">Por funcionário</div>';
   FUNCIONARIOS.forEach(f => {
     const d = porFunc[f];
-    html += '<div class="geral-func-row"><span class="nome">'+f+'</span><span class="breakdown">'+d.total+' ped. · Ag '+d[1]+' · Pré '+d[2]+' · Re '+d[3]+'</span></div>';
+    html += '<div class="geral-func-row"><span class="nome">'+f+'</span><span class="breakdown">'+d.total+' ped. · Ag '+d.ag+' · Pré '+d.pre+' · Re '+d.re+'</span></div>';
   });
-  html += '<div class="geral-aviso">Esse resumo combina os dados salvos neste dispositivo. Para o total real de todos, consulte a planilha do Google Sheets.</div>';
   html += '</div>';
 
-  html += '<div class="box" style="margin-top:0"><div class="box-titulo">Selecionar dia</div><div class="cal-grid" id="cal-grid-geral"></div></div>';
+  // Feed cronológico
+  html += '<div class="geral-card"><div class="geral-titulo">Pedidos de hoje <button class="atualiza-btn" onclick="carregarGeral()">Atualizar</button></div>';
+  if (!eventos.length) {
+    html += '<span class="loading-feed">Nenhum pedido registrado ainda.</span>';
+  } else {
+    const ordenados = eventos.slice().sort((a,b)=> new Date(b.timestamp)-new Date(a.timestamp));
+    ordenados.forEach(e => {
+      const dotClass = e.tipo==='Agendamento'?'d1':e.tipo==='Pré-agendamento'?'d2':'d3';
+      const hora = e.timestamp ? new Date(e.timestamp).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '--:--';
+      html += '<div class="feed-item'+(e.status==='cancelado'?' cancelado':'')+'">'+
+        '<span class="feed-hora">'+hora+'</span>'+
+        '<span class="feed-dot '+dotClass+'"></span>'+
+        '<span class="feed-func">'+e.funcionario+'</span>'+
+        '<span class="feed-num">···'+e.numero+'</span></div>';
+    });
+  }
+  html += '</div>';
+
+  // calendário pra navegar
+  html += '<div class="box"><div class="box-titulo">Selecionar dia</div><div class="cal-grid" id="cal-grid-geral"></div></div>';
 
   document.getElementById('painel-geral').innerHTML = html;
+  renderGeralCal();
+}
 
+function renderGeralCal() {
   const grid = document.getElementById('cal-grid-geral');
-  let cgHtml = DOWS.map(d=>'<div class="cal-dow">'+d+'</div>').join('');
+  if (!grid) return;
+  const y=calRef.getFullYear(), m=calRef.getMonth();
+  let html = DOWS.map(d=>'<div class="cal-dow">'+d+'</div>').join('');
   const primeiro = new Date(y,m,1).getDay();
-  for (let i=0;i<primeiro;i++) cgHtml += '<div class="cal-day vazio"></div>';
+  for (let i=0;i<primeiro;i++) html+='<div class="cal-day vazio"></div>';
   const dias = new Date(y,m+1,0).getDate();
   const hoje = toKey(new Date());
   for (let d=1;d<=dias;d++) {
-    const key = y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    let cls = 'cal-day';
+    const key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    let cls='cal-day';
     if (key===hoje) cls+=' hoje';
     if (key===diaAtivo && key!==hoje) cls+=' selecionado';
-    cgHtml += '<div class="'+cls+'" onclick="selecionarDiaGeral(\''+key+'\')">'+d+'</div>';
+    html+='<div class="'+cls+'" onclick="selecionarDiaGeral(\''+key+'\')">'+d+'</div>';
   }
-  grid.innerHTML = cgHtml;
+  grid.innerHTML = html;
 }
 
 function selecionarDiaGeral(key) {
   diaAtivo = key;
-  renderGeral();
+  document.getElementById('painel-geral').dataset.loaded = '';
+  carregarGeral();
 }
 
-// ---------- Inicialização ----------
+// ---------- Init ----------
 renderTabs();
 trocarAba(abaAtiva);
-agendarMeiaNoite();
+processarFila();
 </script>
 </body>
 </html>
