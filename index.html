@@ -110,6 +110,14 @@ hr { border: none; border-top: 1.5px dashed var(--hairline); margin: 1.5rem 0; }
 .geral-func-row:last-child { border-bottom: none; }
 .geral-func-row .nome { font-family: 'Space Grotesk', sans-serif; font-weight: 600; }
 .geral-func-row .breakdown { color: var(--ink-soft); font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
+.numgrupo-geral { padding: 10px 0; border-bottom: 1px dashed var(--hairline); }
+.numgrupo-geral:last-child { border-bottom: none; padding-bottom: 0; }
+.numgrupo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.numgrupo-label { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; }
+.numgrupo-total { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; }
+.numgrupo-tipos { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 5px; }
+.numgrupo-tipo { font-size: 12px; color: var(--ink-soft); display: flex; align-items: center; font-family: 'IBM Plex Mono', monospace; }
+.numgrupo-funcs { font-size: 11px; color: var(--ink-soft); font-family: 'Inter', sans-serif; }
 .feed-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--hairline); font-size: 12px; }
 .feed-item:last-child { border-bottom: none; }
 .feed-item.cancelado { opacity: 0.4; text-decoration: line-through; }
@@ -222,6 +230,7 @@ let geralTimer = null;
 function toKey(d) { return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function keyToLabel(k) { const [y,m,d]=k.split('-'); return new Date(+y,+m-1,+d).toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'}); }
 function gerarId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+function fmtNum(n) { return String(n).padStart(4, '0'); }
 
 try { filaPendente = JSON.parse(localStorage.getItem('ped_fila') || '[]'); } catch(e) { filaPendente = []; }
 
@@ -335,7 +344,7 @@ function render(tipo) {
   el.innerHTML = items.map(item =>
     '<button class="marca'+(item.cancelado?' cancelado':'')+(item.pendente?' pendente':'')+'" onclick="toggle('+tipo+',\''+item.id+'\')" title="'+(item.cancelado?'Reativar':'Cancelar')+'">' +
     '<i class="ti '+(item.pendente?'ti-loader':(item.cancelado?'ti-x':'ti-check'))+'"></i>' +
-    '<span class="tag">'+NOMES[tipo]+'</span> '+item.num+'</button>'
+    '<span class="tag">'+NOMES[tipo]+'</span> '+fmtNum(item.num)+'</button>'
   ).join('');
 }
 
@@ -368,7 +377,7 @@ function renderResumo() {
   if (!nums.length) { el.innerHTML='<span class="resumo-vazio">Nenhum registro ainda</span>'; return; }
   el.innerHTML = nums.map(num => {
     const d=mapa[num], total=d[1]+d[2]+d[3];
-    return '<div class="num-grupo"><div class="num-header"><span class="num-label">···'+num+'</span><span class="num-total">'+total+' ped.</span></div>'+
+    return '<div class="num-grupo"><div class="num-header"><span class="num-label">···'+fmtNum(num)+'</span><span class="num-total">'+total+' ped.</span></div>'+
       (d[1]?'<div class="num-linha"><span class="k"><span class="dot d1"></span>Agend.</span><span>'+d[1]+'</span></div>':'')+
       (d[2]?'<div class="num-linha"><span class="k"><span class="dot d2"></span>Pré</span><span>'+d[2]+'</span></div>':'')+
       (d[3]?'<div class="num-linha"><span class="k"><span class="dot d3"></span>Reconf.</span><span>'+d[3]+'</span></div>':'')+
@@ -485,6 +494,39 @@ function renderGeral(eventos) {
   });
   html += '</div>';
 
+  // Por número (agrupado)
+  const porNum = {};
+  ativos.forEach(e => {
+    const num = e.numero;
+    if (!porNum[num]) porNum[num] = {ag:0, pre:0, re:0, total:0, funcs:{}};
+    if (e.tipo==='Agendamento') porNum[num].ag++;
+    else if (e.tipo==='Pré-agendamento') porNum[num].pre++;
+    else if (e.tipo==='Reconfirmação') porNum[num].re++;
+    porNum[num].total++;
+    porNum[num].funcs[e.funcionario] = (porNum[num].funcs[e.funcionario] || 0) + 1;
+  });
+  const numsOrd = Object.keys(porNum).sort((a,b) => porNum[b].total - porNum[a].total);
+
+  html += '<div class="geral-card"><div class="geral-titulo">Por número</div>';
+  if (!numsOrd.length) {
+    html += '<span class="loading-feed">Nenhum pedido registrado ainda.</span>';
+  } else {
+    numsOrd.forEach(num => {
+      const d = porNum[num];
+      html += '<div class="numgrupo-geral">';
+      html += '<div class="numgrupo-head"><span class="numgrupo-label">···'+fmtNum(num)+'</span><span class="numgrupo-total">'+d.total+' ped.</span></div>';
+      html += '<div class="numgrupo-tipos">';
+      if (d.ag) html += '<span class="numgrupo-tipo"><span class="dot d1"></span>Ag '+d.ag+'</span>';
+      if (d.pre) html += '<span class="numgrupo-tipo"><span class="dot d2"></span>Pré '+d.pre+'</span>';
+      if (d.re) html += '<span class="numgrupo-tipo"><span class="dot d3"></span>Re '+d.re+'</span>';
+      html += '</div>';
+      const funcsStr = Object.keys(d.funcs).map(f => f+' ('+d.funcs[f]+')').join(' · ');
+      html += '<div class="numgrupo-funcs">'+funcsStr+'</div>';
+      html += '</div>';
+    });
+  }
+  html += '</div>';
+
   // Feed cronológico
   html += '<div class="geral-card"><div class="geral-titulo">Pedidos de hoje <button class="atualiza-btn" onclick="carregarGeral()">Atualizar</button></div>';
   if (!eventos.length) {
@@ -498,7 +540,7 @@ function renderGeral(eventos) {
         '<span class="feed-hora">'+hora+'</span>'+
         '<span class="feed-dot '+dotClass+'"></span>'+
         '<span class="feed-func">'+e.funcionario+'</span>'+
-        '<span class="feed-num">···'+e.numero+'</span></div>';
+        '<span class="feed-num">···'+fmtNum(e.numero)+'</span></div>';
     });
   }
   html += '</div>';
